@@ -22,6 +22,7 @@ services:
       - hermes-network
     environment:
       - MONGO_URI=mongodb://mongo_service:27017/hermes-db
+      - SERVER_PORT=8000
     depends_on:
       - mongo_service
 
