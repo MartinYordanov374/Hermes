@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: ./src/FrontEnd/Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - hermes-network
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: .
+      dockerfile: ./src/BackEnd/Dockerfile
+    ports:
+      - "5000:5000"
+    networks:
+      - hermes-network
+    environment:
+      - MONGO_URI=mongodb://mongo_service:27017/hermes-db
+    depends_on:
+      - mongo_service
+
+  mongo_service:
+    image: mongo:latest
+    volumes:
+      - mongo_service_vol:/data/db
+    networks:
+      - hermes-network
+    ports:
+      - "27017:27017"
+
+volumes:
+  mongo_service_vol:
+
+networks:
+  hermes-network:
+    driver: bridge
