@@ -1,13 +1,34 @@
 const express = require('express')
+const express_session = require('express-session')
+const mongodb_store = require('connect-mongodb-session')(express_session)
 const connect_to_db = require('../Mongo/Mongoose/Mongoose')
 const server_port = 8000 
 const {RegisterUser, FindUserByUsername, LoginUser, DeleteUser, ChangePassword} = require('../Services/Users/UserServices')
 const start_server = async() => {
     const app = express()
     app.use(express.json());
+    
 
     await connect_to_db()
 
+    var store = new mongodb_store({
+        uri: 'mongodb://0.0.0.0:27017/hermes-db', //TODO: Use the docker-compose service later
+        collection: 'user-sessions'
+      });
+
+      app.use(express_session({
+        secret: 'secret',
+        store: store,
+        saveUninitialized: false,
+        resave: false,
+        cookie: {
+            sameSite: false,
+            secure: false,
+            expires: new Date(Date.now() + 3600000),
+            httpOnly: true,
+            path: '/'
+            },
+        }))
     app.post(`/api/service/user/RegisterUser`, async(req,res) => {
         const username = req.body.username
         const password = req.body.password
@@ -29,7 +50,9 @@ const start_server = async() => {
         const username = req.body.username.toLowerCase()
         const password = req.body.password
         const loginResult = await LoginUser(username, password)
-        //TODO: Upon success create a session object
+        //TODO: Use a UUID or something similar later on
+        req.session.user = {username: username}
+        req.session.save(() => {})
         res.status(loginResult.status).send(loginResult.message)
     })
 
