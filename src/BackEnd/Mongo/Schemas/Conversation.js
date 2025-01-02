@@ -17,7 +17,11 @@ const ConversationSchema = new Schema({
    Messages: {
         type: [mongoose.Types.ObjectId],
         ref: 'Message'
-   }
+   },
+   HiddenFrom: [{
+     type: mongoose.Schema.Types.ObjectId,
+     ref: 'User'
+ }],
 })
 
 const Conversation = mongoose.model("Conversation", ConversationSchema);

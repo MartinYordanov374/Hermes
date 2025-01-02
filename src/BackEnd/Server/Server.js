@@ -108,6 +108,13 @@ const start_server = async() => {
         
     })
 
+    app.get('/api/service/conversation/GetConversation', async(req,res) => {
+        //TODO: Make sure that nobody but the users involved can access their own chats
+    })
+
+    app.delete('/api/service/conversation/DeleteConversation', async(req,res) => {
+        //TODO: Make sure that a conversation is deleted ONLY for the user initiating the action
+    })
 
     app.post(`/api/service/conversation/CreateConversation`, async(req,res) => {
         //TODO: Remove this endpoint and only fetch create conversation upon sending a message.
