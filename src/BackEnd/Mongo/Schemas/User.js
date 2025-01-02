@@ -9,6 +9,11 @@ const UserSchema = new Schema({
     Password: {
         required: true,
         type: String
+    },
+    ProfilePicture: {
+        required: false,
+        type: Buffer,
+        default: null //TODO: Add a default profile picture after MVP
     }
 })
 
