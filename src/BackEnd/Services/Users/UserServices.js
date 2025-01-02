@@ -1,7 +1,9 @@
 const {RegisterUser} = require('./RegisterUser')
-const {DoesUserExist} = require('./DoesUserExist')
+const {FindUserByUsername} = require('./FindUserByUsername')
+const {LoginUser} = require('./LoginUser')
 
 module.exports = {
     RegisterUser,
-    DoesUserExist
+    FindUserByUsername,
+    LoginUser
 }
