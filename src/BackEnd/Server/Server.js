@@ -35,7 +35,7 @@ const start_server = async() => {
 
     app.delete('/api/service/user/DeleteUser', async(req,res) => {
         //TODO: Allow user deletion only if the current session corresponds to the user's active session in the database
-        const sessionData = []
+        const sessionData = req.body.username // TODO: Use session data later on
         const result = await DeleteUser(sessionData)
         //TODO: Handle case in which this fails
         res.status(result.status).send(result.message)
@@ -44,7 +44,7 @@ const start_server = async() => {
     app.patch('/api/service/user/ChangePassword', async(req,res) => {
         //TODO: Allow user updates only if the current session corresponds to the user's active session in the database
         
-        const sessionData = req.body.username // use session data later on
+        const sessionData = req.body.username // TODO: use session data later on
         const newPassword = req.body.newPassword
         const result = await ChangePassword(sessionData, newPassword)
          //TODO: Handle case in which this fails
