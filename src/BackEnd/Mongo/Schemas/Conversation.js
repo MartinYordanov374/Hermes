@@ -2,9 +2,13 @@ const { Schema, default: mongoose } = require("mongoose");
 
 
 const ConversationSchema = new Schema({
-   Participants: {
-        type: [mongoose.Types.ObjectId],
-        ref: 'User',
+   SenderID: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+   },
+   ReceiverID: {
+     type: mongoose.Types.ObjectId,
+     ref: 'User'
    },
    CreationDate: {
         type: Date,
