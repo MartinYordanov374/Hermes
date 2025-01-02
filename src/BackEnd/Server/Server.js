@@ -71,8 +71,23 @@ const start_server = async() => {
         {
             res.status(403).send('You cannot perform this action!')
         }
+    })
+
+    app.post('/api/service/user/Logout', async(req,res) => {
+        //TODO: Consider more secure approaches to that
+        if(req.session.username)
+        {
+            req.session.destroy((err)=> {
+                console.log(err)
+            })
+            res.status(200).send('Logout successful')
+        }
+        else
+        {
+            res.status(403).send('You have to be logged in, so that you can log out')
+        }
         
-        
+       
     })
 
     app.patch('/api/service/user/ChangePassword', async(req,res) => {
