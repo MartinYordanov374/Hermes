@@ -16,7 +16,7 @@ const start_server = async() => {
         collection: 'user-sessions'
       });
 
-      app.use(express_session({
+    app.use(express_session({
         secret: 'secret',
         store: store,
         saveUninitialized: false,
@@ -28,7 +28,8 @@ const start_server = async() => {
             httpOnly: true,
             path: '/'
             },
-        }))
+    }))
+    
     app.post(`/api/service/user/RegisterUser`, async(req,res) => {
         const username = req.body.username
         const password = req.body.password
@@ -51,7 +52,7 @@ const start_server = async() => {
         const password = req.body.password
         const loginResult = await LoginUser(username, password)
         //TODO: Use a UUID or something similar later on
-        req.session.username = username
+        req.session.userId = loginResult.userId
         req.session.save()
 
         res.status(loginResult.status).send(loginResult.message)
@@ -59,9 +60,9 @@ const start_server = async() => {
 
     app.delete('/api/service/user/DeleteUser', async(req,res) => {
         //TODO: Consider more secure approaches to that
-        if(req.session.username == req.body.username)
+        if(req.session.userId == req.body.userId)
         {
-            const result = await DeleteUser(req.session.username)
+            const result = await DeleteUser(req.session.userId)
             req.session.destroy((err)=> {
                 console.log(err)
             })
@@ -75,7 +76,7 @@ const start_server = async() => {
 
     app.post('/api/service/user/Logout', async(req,res) => {
         //TODO: Consider more secure approaches to that
-        if(req.session.username)
+        if(req.session.userId)
         {
             req.session.destroy((err)=> {
                 console.log(err)
@@ -93,9 +94,10 @@ const start_server = async() => {
     app.patch('/api/service/user/ChangePassword', async(req,res) => {
         //TODO: Allow user updates only if the current session corresponds to the user's active session in the database
         
-        if(req.session.username == req.body.username)
+        if(req.session.userId == req.body.userId)
         {
-            const result = await ChangePassword(sessionData, newPassword)
+            const newPassword = req.body.newPassword
+            const result = await ChangePassword(req.session.userId, newPassword)
             res.status(result.status).send(result.message)
         }
         else
@@ -104,6 +106,7 @@ const start_server = async() => {
         }
         
     })
+
     app.listen(server_port, () => {
         console.log(`express listening on port ${server_port}`)
     })
