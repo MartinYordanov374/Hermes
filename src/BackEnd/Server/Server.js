@@ -93,11 +93,16 @@ const start_server = async() => {
     app.patch('/api/service/user/ChangePassword', async(req,res) => {
         //TODO: Allow user updates only if the current session corresponds to the user's active session in the database
         
-        const sessionData = req.body.username // TODO: use session data later on
-        const newPassword = req.body.newPassword
-        const result = await ChangePassword(sessionData, newPassword)
-         //TODO: Handle case in which this fails
-        res.status(result.status).send(result.message)
+        if(req.session.username == req.body.username)
+        {
+            const result = await ChangePassword(sessionData, newPassword)
+            res.status(result.status).send(result.message)
+        }
+        else
+        {
+            res.status(403).send('You cannot perform this action!')
+        }
+        
     })
     app.listen(server_port, () => {
         console.log(`express listening on port ${server_port}`)
