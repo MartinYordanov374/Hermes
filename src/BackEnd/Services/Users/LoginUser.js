@@ -7,7 +7,7 @@ const LoginUser = async(username, password) => {
     {
         if(await bcrypt.compare(password, targetUser.UserObject.Password))
         {
-            return {message: 'log in successful', status: 200, loginSuccess: true}
+            return {message: 'log in successful', status: 200, loginSuccess: true,  userId: targetUser.UserObject._id}
         }
         else
         {

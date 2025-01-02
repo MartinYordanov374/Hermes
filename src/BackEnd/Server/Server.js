@@ -51,17 +51,28 @@ const start_server = async() => {
         const password = req.body.password
         const loginResult = await LoginUser(username, password)
         //TODO: Use a UUID or something similar later on
-        req.session.user = {username: username}
-        req.session.save(() => {})
+        req.session.username = username
+        req.session.save()
+
         res.status(loginResult.status).send(loginResult.message)
     })
 
     app.delete('/api/service/user/DeleteUser', async(req,res) => {
-        //TODO: Allow user deletion only if the current session corresponds to the user's active session in the database
-        const sessionData = req.body.username // TODO: Use session data later on
-        const result = await DeleteUser(sessionData)
-        //TODO: Handle case in which this fails
-        res.status(result.status).send(result.message)
+        //TODO: Consider more secure approaches to that
+        if(req.session.username == req.body.username)
+        {
+            const result = await DeleteUser(req.session.username)
+            req.session.destroy((err)=> {
+                console.log(err)
+            })
+            res.status(result.status).send(result.message)
+        }
+        else
+        {
+            res.status(403).send('You cannot perform this action!')
+        }
+        
+        
     })
 
     app.patch('/api/service/user/ChangePassword', async(req,res) => {
