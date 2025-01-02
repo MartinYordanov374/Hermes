@@ -2,7 +2,9 @@ const ConversationModel = require("../../Mongo/Schemas/Conversation")
 
 const GetConversationByParticipants = async(senderUserId, receiverUserId) => {
     let targetConversation = await ConversationModel.find(
-        {$and: [{SenderID: senderUserId}, {ReceiverID: receiverUserId}]}
+        {$and: [{SenderID: senderUserId}, {ReceiverID: receiverUserId}], 
+        $or: [{SenderID: receiverUserId}, {ReceiverID: senderUserId}]}
+        
     )
     if(targetConversation)
     {
