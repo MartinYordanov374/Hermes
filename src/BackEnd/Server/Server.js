@@ -4,6 +4,7 @@ const mongodb_store = require('connect-mongodb-session')(express_session)
 const connect_to_db = require('../Mongo/Mongoose/Mongoose')
 const server_port = 8000 
 const {RegisterUser, FindUserByUsername, LoginUser, DeleteUser, ChangePassword} = require('../Services/Users/UserServices')
+const { GetConversationByParticipants,DeleteConversation,CreateConversation } = require('../Services/Conversations/ConversationServices')
 const start_server = async() => {
     const app = express()
     app.use(express.json());
@@ -105,6 +106,15 @@ const start_server = async() => {
             res.status(403).send('You cannot perform this action!')
         }
         
+    })
+
+
+    app.post(`/api/service/conversation/CreateConversation`, async(req,res) => {
+        //TODO: Remove this endpoint and only fetch create conversation upon sending a message.
+        const senderUserId = req.session.userId
+        const receiverUserId = req.body.receiverUserId
+        let targetConversation = await CreateConversation(senderUserId, receiverUserId)
+        res.status(targetConversation.status).send({message:targetConversation.message})
     })
 
     app.listen(server_port, () => {

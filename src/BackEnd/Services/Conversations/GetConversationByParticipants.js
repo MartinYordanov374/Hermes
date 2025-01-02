@@ -1,11 +1,12 @@
 const ConversationModel = require("../../Mongo/Schemas/Conversation")
 
 const GetConversationByParticipants = async(senderUserId, receiverUserId) => {
-    let targetConversation = await ConversationModel.find(
-        {$and: [{SenderID: senderUserId}, {ReceiverID: receiverUserId}], 
-        $or: [{SenderID: receiverUserId}, {ReceiverID: senderUserId}]}
-        
-    )
+    let targetConversation = await ConversationModel.findOne({
+        $or: [
+            { SenderID: senderUserId, ReceiverID: receiverUserId },
+            { SenderID: receiverUserId, ReceiverID: senderUserId }
+        ]
+    });
     if(targetConversation)
     {
         return targetConversation
@@ -13,7 +14,7 @@ const GetConversationByParticipants = async(senderUserId, receiverUserId) => {
     else
     {
         // TODO: Create conversation if conversation does not exist already
-        return false
+        return null
     }
 }
 
