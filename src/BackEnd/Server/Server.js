@@ -114,6 +114,7 @@ const start_server = async() => {
 
     app.delete('/api/service/conversation/DeleteConversation', async(req,res) => {
         //TODO: Make sure that a conversation is deleted ONLY for the user initiating the action
+        //TODO: If both users have deleted the conversation, eradicate it globally from the DB
     })
 
     app.post(`/api/service/conversation/CreateConversation`, async(req,res) => {
