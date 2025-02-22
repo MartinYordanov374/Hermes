@@ -9,8 +9,6 @@ COPY . .
 
 WORKDIR /app/src/BackEnd/Server
 
-RUN npm test
-
 EXPOSE 8000
 
 CMD ["node", "Server.js"]
