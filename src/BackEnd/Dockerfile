@@ -11,4 +11,4 @@ WORKDIR /app/src/BackEnd/Server
 
 EXPOSE 8000
 
-CMD ["node", "Server.js"]
+CMD ["node", "Server.cjs"]

@@ -2,7 +2,7 @@ const salt_rounds = 9
 
 const bcrypt = require('bcryptjs')
 
-const UserModel = require('../../Mongo/Schemas/User')
+const UserModel = require('../../Mongo/Schemas/User.cjs')
 
 const RegisterUser = async (username, password, confirmationPassword) => {
     //TODO: Add password regex to enforce stronger passwords

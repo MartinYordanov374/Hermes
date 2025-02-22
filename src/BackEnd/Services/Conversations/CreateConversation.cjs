@@ -1,5 +1,5 @@
-const { GetConversationByParticipants } = require("./GetConversationByParticipants")
-const ConversationModel = require("../../Mongo/Schemas/Conversation")
+const { GetConversationByParticipants } = require("./GetConversationByParticipants.cjs")
+const ConversationModel = require("../../Mongo/Schemas/Conversation.cjs")
 
 const CreateConversation = async(senderUserId, receiverUserId) => {
   //TODO: Check if both users exist before creating a convo

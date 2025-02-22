@@ -1,4 +1,4 @@
-const UserModel = require('../../Mongo/Schemas/User')
+const UserModel = require('../../Mongo/Schemas/User.cjs')
 
 const FindUserByUsername = async (username) => {
     let targetUser = await UserModel.findOne({Username: username})

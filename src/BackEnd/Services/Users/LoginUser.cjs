@@ -1,5 +1,5 @@
-const UserModel = require('../../Mongo/Schemas/User')
-const { FindUserByUsername } = require('./FindUserByUsername')
+const UserModel = require('../../Mongo/Schemas/User.cjs')
+const { FindUserByUsername } = require('./FindUserByUsername.cjs')
 const bcrypt = require('bcryptjs')
 const LoginUser = async(username, password) => {
     let targetUser = await FindUserByUsername(username)

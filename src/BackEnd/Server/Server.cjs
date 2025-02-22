@@ -1,10 +1,10 @@
 const express = require('express')
 const express_session = require('express-session')
 const mongodb_store = require('connect-mongodb-session')(express_session)
-const connect_to_db = require('../Mongo/Mongoose/Mongoose')
+const connect_to_db = require('../Mongo/Mongoose/Mongoose.cjs')
 const server_port = 8000 
-const {RegisterUser, FindUserByUsername, LoginUser, DeleteUser, ChangePassword} = require('../Services/Users/UserServices')
-const { GetConversationByParticipants,DeleteConversation,CreateConversation } = require('../Services/Conversations/ConversationServices')
+const {RegisterUser, FindUserByUsername, LoginUser, DeleteUser, ChangePassword} = require('../Services/Users/UserServices.cjs')
+const { GetConversationByParticipants,DeleteConversation,CreateConversation } = require('../Services/Conversations/ConversationServices.cjs')
 
 const start_server = async() => {
     const app = express()
@@ -14,7 +14,7 @@ const start_server = async() => {
     await connect_to_db()
 
     var store = new mongodb_store({
-        uri: 'mongodb://0.0.0.0:27017/hermes-db', //TODO: Use the docker-compose service later
+        uri: 'mongodb://mongo_service:27017/hermes-db', //TODO: Use the docker-compose service later
         collection: 'user-sessions'
       });
 
@@ -93,9 +93,7 @@ const start_server = async() => {
        
     })
 
-    app.patch('/api/service/user/ChangePassword', async(req,res) => {
-        //TODO: Allow user updates only if the current session corresponds to the user's active session in the database
-        
+    app.patch('/api/service/user/ChangePassword', async(req,res) => {        
         if(req.session.userId == req.body.userId)
         {
             const newPassword = req.body.newPassword

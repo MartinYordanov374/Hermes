@@ -1,4 +1,4 @@
-const ConversationModel = require("../../Mongo/Schemas/Conversation")
+const ConversationModel = require("../../Mongo/Schemas/Conversation.cjs")
 
 const GetConversationByParticipants = async(senderUserId, receiverUserId) => {
     let targetConversation = await ConversationModel.findOne({

@@ -28,15 +28,15 @@ services:
 
   mongo_service:
     image: mongo:latest
-    # volumes:
-    #   - mongo_service_vol:/data/db
+    volumes:
+      - mongo_service_vol:/data/db
     networks:
       - hermes-network
     ports:
       - "27017:27017"
 
-# volumes:
-#   mongo_service_vol:
+volumes:
+  mongo_service_vol:
 
 networks:
   hermes-network:

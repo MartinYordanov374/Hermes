@@ -1,4 +1,4 @@
-const UserModel = require('../../Mongo/Schemas/User')
+const UserModel = require('../../Mongo/Schemas/User.cjs')
 const bcrypt = require('bcryptjs')
 const salt_rounds = 10 //process.env.SALT_ROUNDS
 const ChangePassword = async(userId, newPassword) => {
