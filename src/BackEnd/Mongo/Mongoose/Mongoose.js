@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 
-const connectionString = process.env.MONGO_URI
+// const connectionString = process.env.MONGO_URI
 // Use the one below for local testing purposes
-// const connectionString = 'mongodb://0.0.0.0:27017/hermes-db' 
+const connectionString = 'mongodb://0.0.0.0:27017/hermes-db' 
 
 module.exports = async() => {
     try{

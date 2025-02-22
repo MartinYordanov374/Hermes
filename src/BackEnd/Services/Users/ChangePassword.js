@@ -1,5 +1,5 @@
 const UserModel = require('../../Mongo/Schemas/User')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const salt_rounds = 10 //process.env.SALT_ROUNDS
 const ChangePassword = async(userId, newPassword) => {
     //TODO: Add password validations, check if user exists before updating
